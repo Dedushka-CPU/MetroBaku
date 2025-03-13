@@ -1,10 +1,10 @@
+#include "Station.h"
+#include "Train.h"
 #include <iostream>
-#include "Metro.cpp"
-#include <windows.h>
+#include <vector>
+#include <memory>
+#include <thread>
 
-#ifdef _WIN32
-#include <windows.h> // Для Windows: настройка консоли
-#endif
 
 void RunMetro(Train& train) {
     train.runTrain();
