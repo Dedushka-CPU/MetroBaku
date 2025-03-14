@@ -2,6 +2,8 @@
 #include <thread>
 #include <chrono>
 
+std::mutex Station::cout_mtx;//компилятор сильна ругался,пришлось сюда добавить
+
 // Конструктор
 Station::Station(int i, const std::string& n, int s, bool l,bool d){
     id=i;
@@ -16,18 +18,31 @@ Station::Station(int i, const std::string& n, int s, bool l,bool d){
 
 bool Station::TryArriveTrain(int train_id, bool& s_t) {
     if (mtx.try_lock()) {
-        std::cout << "Train with id:" << train_id << " arrived at the station " << name << "(" << id << ")\n";
+        {
+            std::lock_guard<std::mutex> lock(cout_mtx);
+            std::cout << "Train with id:" << train_id << " arrived at the station " << name << "(" << id << ")\n";
+        }
         std::this_thread::sleep_for(std::chrono::seconds(wait_seconds));
-        std::cout << "Train with id:" << train_id << " left the station " << name << "(" << id << ")\n";
+        {
+            std::lock_guard<std::mutex> lock(cout_mtx);
+            std::cout << "Train with id:" << train_id << " left the station " << name << "(" << id << ")\n";
+        }
         if (depo) {
-            std::cout << "Train with id:" << train_id << " in the depot and turns around. \n";
+            {
+                std::lock_guard<std::mutex> lock(cout_mtx);
+                std::cout << "Train with id:" << train_id << " in the depot and turns around. \n";
+            }
+            
             std::this_thread::sleep_for(std::chrono::seconds(wait_seconds));
             s_t = true;
         }
         mtx.unlock();
         return true;
     } else {
-        std::cout << "Train with id: " << train_id << " waiting for the station " << name << "(" << id << ") to be released.\n";
+        {
+            std::lock_guard<std::mutex> lock(cout_mtx);
+            std::cout << "Train with id: " << train_id << " waiting for the station " << name << "(" << id << ") to be released.\n";
+        }
         return false;
     }
 }
@@ -47,7 +62,9 @@ void Station::setPrev(std::shared_ptr<Station> p) {
 int Station::getId(){
     return id;
 }
-
+int Station::getSquare(){
+    return square;
+}
 void Station::addNext(std::shared_ptr<Station> n, MetroLine line) { 
     next.push_back({n, line}); 
 }

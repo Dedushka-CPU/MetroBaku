@@ -171,7 +171,7 @@
     {
         "id": 16,
         "name": "Кёроглу",
-        "square": 2,
+        "square": 1050,
         "last": false,
         "depo": false,
         "next": [
@@ -195,7 +195,7 @@
     {
         "id": 18,
         "name": "Нефтчиляр",
-        "square": 2,
+        "square": 1050,
         "last": false,
         "depo": false,
         "next": [

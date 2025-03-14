@@ -172,25 +172,25 @@ int main() {
 
         // Пример вывода для проверки
         for (const auto& station : stations) {
-            std::cout << "Station: " << station->getName() << " (ID: " << station->getId() << ")\n";
+            std::cout << "Station: " << station->getName() << " (ID: " << station->getId() << ") with square="<<station->getSquare()<<"\n";
         }
    /*} catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << "\n";
     }*/
-    Train train_red(1, stations[9], MetroLine::RED);
-   /* Train train_green(2, darnagul, MetroLine::GREEN);
-    Train train_purple(3, hodjasan, MetroLine::PURPLE);
-    Train train_yellow(4, djabar_djabbarly, MetroLine::YELLOW);*/
+    Train train_red(1, stations[17], MetroLine::RED);
+    Train train_green(2, stations[17], MetroLine::GREEN);
+    //Train train_purple(3, stations[0], MetroLine::PURPLE);
+   // Train train_yellow(4, stations[21], MetroLine::YELLOW);
 
     std::thread red_thread(&Train::runTrain, &train_red);
-    //std::thread green_thread(&Train::runTrain, &train_green);*/
-   /*std::thread purple_thread(&Train::runTrain, &train_purple);
-    std::thread yellow_thread(&Train::runTrain, &train_yellow);*/
+    std::thread green_thread(&Train::runTrain, &train_green);
+  // std::thread purple_thread(&Train::runTrain, &train_purple);
+  //  std::thread yellow_thread(&Train::runTrain, &train_yellow);
 
     red_thread.join();
-    //green_thread.join();*/
-  /* purple_thread.join();
-    yellow_thread.join();*/
+    green_thread.join();
+   // purple_thread.join();
+   // yellow_thread.join();
     
     return 0;
 }

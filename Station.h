@@ -22,6 +22,7 @@ private:
     std::vector<std::pair<std::shared_ptr<Station>, MetroLine>> next; // след станция и ее цвет
     std::shared_ptr<Station> prev;        // предыдущая станция
     std::mutex mtx; // просто мюьтекс
+    static std::mutex cout_mtx; // еще один мютекс для вывода
     int wait_seconds=3; // сколько стоит на станции
     bool depo; // это депо?
     int square;//площадь станции(где могут стоять люди)
@@ -36,6 +37,7 @@ public:
 
     std::string getName();
     int getId();
+    int getSquare();
     std::shared_ptr<Station> getPrev();
     void setPrev(std::shared_ptr<Station> p);
 
