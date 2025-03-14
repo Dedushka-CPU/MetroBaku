@@ -21,24 +21,24 @@ void Train::runTrain() {
         }
 
         if (forward) {
-            if (current_station->getName() == "28 Мая") {
+            if (current_station->getId() == 11) {//28 мая
                 if (line == MetroLine::RED || line == MetroLine::GREEN) {
                     current_station = current_station->getNextForLine(line);
                 } else if (line == MetroLine::YELLOW) {
                     current_station = current_station->getNextForLine(MetroLine::YELLOW);
                 }
-            } else if (current_station->getName() == "Нариман Нариманов") {
+            } else if (current_station->getId() == 13) {//нариман нариманов
                 if (line == MetroLine::RED || line == MetroLine::GREEN) {
                     if (train_id % 2 == 0) {
                         for (const auto& next_station : current_station->getNextStations()) {
-                            if (next_station.first->getName() == "Кёроглу") {
+                            if (next_station.first->getId() == 14) {//улдуз
                                 current_station = next_station.first;
                                 break;
                             }
                         }
                     } else {
                         for (const auto& next_station : current_station->getNextStations()) {
-                            if (next_station.first->getName() == "Бакмил") {
+                            if (next_station.first->getId() == 15) {//бакмиль
                                 current_station = next_station.first;
                                 break;
                             }

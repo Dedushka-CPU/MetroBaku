@@ -22,15 +22,20 @@ private:
     std::vector<std::pair<std::shared_ptr<Station>, MetroLine>> next; // след станция и ее цвет
     std::shared_ptr<Station> prev;        // предыдущая станция
     std::mutex mtx; // просто мюьтекс
-    int wait_seconds; // сколько стоит на станции
+    int wait_seconds=3; // сколько стоит на станции
     bool depo; // это депо?
-
+    int square;//площадь станции(где могут стоять люди)
+    int max_people;//сколько максимально могут быть на станции
+    int current_people=0;//сколько сейчас на станции
+   // int index;//коэф-т станции,должен влиять на кол-во людей которые приходят,сходят на стацнии
+    bool last;//будет ли разворачиваться или нет
 public:
-    Station(int i, std::string n, int ws, bool d = false);
+    Station(int i, const std::string& n, int s, bool l,bool d);
 
     bool TryArriveTrain(int train_id, bool& s_t);
 
     std::string getName();
+    int getId();
     std::shared_ptr<Station> getPrev();
     void setPrev(std::shared_ptr<Station> p);
 
@@ -38,5 +43,7 @@ public:
     std::shared_ptr<Station> getNextForLine(MetroLine line);
     const std::vector<std::pair<std::shared_ptr<Station>, MetroLine>>& getNextStations() const;
 };
+
+
 
 #endif // STATION_H

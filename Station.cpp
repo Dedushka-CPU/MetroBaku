@@ -3,8 +3,16 @@
 #include <chrono>
 
 // Конструктор
-Station::Station(int i, std::string n, int ws, bool d) 
-    : id(i), name(n), wait_seconds(ws), depo(d), prev(nullptr) {}
+Station::Station(int i, const std::string& n, int s, bool l,bool d){
+    id=i;
+    name=n;
+    prev=nullptr;
+    depo=d;
+    square=s;
+    last=l;
+    max_people = square / 0.2; // Рассчитываем макс. число людей на платформе
+}
+
 
 bool Station::TryArriveTrain(int train_id, bool& s_t) {
     if (mtx.try_lock()) {
@@ -34,6 +42,10 @@ std::shared_ptr<Station> Station::getPrev() {
 
 void Station::setPrev(std::shared_ptr<Station> p) { 
     prev = p; 
+}
+
+int Station::getId(){
+    return id;
 }
 
 void Station::addNext(std::shared_ptr<Station> n, MetroLine line) { 
