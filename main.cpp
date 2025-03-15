@@ -177,20 +177,80 @@ int main() {
    /*} catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << "\n";
     }*/
-    Train train_red(1, stations[17], MetroLine::RED);
+   /* Train train_red(1, stations[17], MetroLine::RED);
     Train train_green(2, stations[17], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::RED);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::RED);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::RED);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::RED);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::RED);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::RED);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::RED);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::RED);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::RED);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::RED);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::RED);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::RED);
+    Train t1(3,stations[15], MetroLine::GREEN);
+    Train t1(3,stations[15], MetroLine::GREEN);
+*/
     //Train train_purple(3, stations[0], MetroLine::PURPLE);
    // Train train_yellow(4, stations[21], MetroLine::YELLOW);
-
+/*
     std::thread red_thread(&Train::runTrain, &train_red);
-    std::thread green_thread(&Train::runTrain, &train_green);
+    std::thread green_thread(&Train::runTrain, &train_green);*/
   // std::thread purple_thread(&Train::runTrain, &train_purple);
   //  std::thread yellow_thread(&Train::runTrain, &train_yellow);
-
-    red_thread.join();
-    green_thread.join();
+   // green_thread.join();
    // purple_thread.join();
    // yellow_thread.join();
-    
+    std::vector<Train> trains;
+    std::vector<std::thread> threads;
+    for (int i = 0; i < 50; ++i) {
+        MetroLine line = (i % 2 == 0) ? MetroLine::GREEN : MetroLine::RED;
+        trains.push_back(Train(i, stations[15], line));
+    }
+
+    for (auto& train : trains) {
+        threads.push_back(std::thread(&Train::runTrain, &train));
+    }
+    for (auto& thread : threads) {
+        thread.join();
+    }
     return 0;
 }

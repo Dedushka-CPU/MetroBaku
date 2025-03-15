@@ -54,13 +54,22 @@ bool Station::TryArriveTrain(int train_id, bool& s_t) {
             
             std::this_thread::sleep_for(std::chrono::seconds(wait_seconds));
             s_t = true;
-        }
+        }else if(last){
+			{
+                std::lock_guard<std::mutex> lock(cout_mtx);
+                std::cout << "*voice \"This is last station.PLease leave this train and don't your belonginks \n";
+            }
+            
+            std::this_thread::sleep_for(std::chrono::seconds(wait_seconds+5));
+            s_t = true;
+		}
         mtx.unlock();
         return true;
     } else {
         {
             std::lock_guard<std::mutex> lock(cout_mtx);
-            std::cout << "Train with id: " << train_id << " waiting for the station " << name << "(" << id << ") to be released.\n";
+            std::cout << "Train with id: " << train_id << " waiting for the station " << name << "(" << id << ") to be released.\n voice 'Сколь нам еще ждать??Он че там вышел покурить??Ay shofer sur da'\n";
+            std::this_thread::sleep_for(std::chrono::seconds(2));
         }
         return false;
     }

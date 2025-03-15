@@ -4,7 +4,7 @@
         "name": "Ходжасан",
         "square": 1440,
         "last": false,
-        "depo": false,
+        "depo": true,
         "next": [
             {"id": 2, "line": "PURPLE"}
         ],
@@ -101,7 +101,7 @@
         "id": 10,
         "name": "Ичери Шехер",
         "square": 1050,
-        "last": false,
+        "last": true,
         "depo": false,
         "next": [
             {"id": 9, "line": "RED"}
@@ -164,7 +164,7 @@
         "name": "Бакмил",
         "square": 1050,
         "last": true,
-        "depo": true,
+        "depo": false,
         "next": [],
         "prev": 13
     },
@@ -233,7 +233,7 @@
         "name": "Ази Асланов",
         "square": 1050,
         "last": true,
-        "depo": true,
+        "depo": false,
         "next": [],
         "prev": 20
     },
@@ -241,7 +241,7 @@
         "id": 22,
         "name": "Джафар Джаббарлы",
         "square": 1050,
-        "last": false,
+        "last": true,
         "depo": false,
         "next": [
             {"id": 23, "line": "YELLOW"}
@@ -253,7 +253,7 @@
         "name": "Шах Исмаил Хатаи",
         "square": 1050,
         "last": true,
-        "depo": true,
+        "depo": false,
         "next": [
             {"id": 22, "line": "YELLOW"}
         ],
@@ -264,7 +264,7 @@
         "name": "Дарнагюль",
         "square": 1050,
         "last": false,
-        "depo": false,
+        "depo": true,
         "next": [
             {"id": 25, "line": "GREEN"}
         ],
