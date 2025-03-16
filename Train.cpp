@@ -49,6 +49,7 @@ void Train::runTrain() {
                 int i=rand()%10;
                 if(i<=2){
                     current_station=current_station->getPrevById(15);
+                    std::cout<<"Qatar bakmil stansiyasi qedir.*Свет в вагоне начал тускнеть*\n";
                 }else{
                     current_station=current_station->getPrevById(14);  
                 }
