@@ -1,6 +1,28 @@
-cmake_minimum_required(VERSION 3.30)
-project(MetroBaku)
+cmake_minimum_required(VERSION 2.8)
 
-set(CMAKE_CXX_STANDARD 20)
+project(MetroSimulator)
 
-add_executable(MetroBaku main.cpp Train.cpp Station.cpp)
+option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
+
+add_library(MetroLib
+    Station.cpp
+    Train.cpp
+)
+
+target_include_directories(MetroLib PUBLIC ${CMAKE_SOURCE_DIR})
+
+add_executable(metro
+    main.cpp
+    Station.cpp
+    Train.cpp
+)
+
+target_link_libraries(metro PRIVATE MetroLib)
+
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+target_link_libraries(metro PRIVATE Threads::Threads)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
