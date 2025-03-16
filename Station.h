@@ -20,8 +20,9 @@ private:
     int id;          // ID станции
     std::string name; // Имя станции
     std::vector<std::pair<std::shared_ptr<Station>, MetroLine>> next; // след станция и ее цвет
-    std::shared_ptr<Station> prev;        // предыдущая станция
-    std::mutex mtx; // просто мюьтекс
+    std::vector<std::pair<std::shared_ptr<Station>, MetroLine>> prev;        // предыдущая станция
+    std::mutex mtx_t; // мютекс с хази на дарнагль
+    std::mutex mtx_f;//мютекс с дарнагюла на хази
     static std::mutex cout_mtx; // еще один мютекс для вывода
     int wait_seconds=8; // сколько стоит на станции
     bool depo; // это депо?
@@ -33,18 +34,20 @@ private:
 public:
     Station(int i, const std::string& n, int s, bool l,bool d);
     int get_cur_people();
+    std::shared_ptr<Station> getPrevById(int targetId);//поиск по ид
     int get_max_pep() const;
     void updatePassengers();
     void p_g_t(int p);//people go to train
     void add_people(int);
-    bool TryArriveTrain(int train_id, bool& s_t);//попытка приехать на станцию
+    bool TryArriveTrain(int train_id, bool& s_t,bool& forward);//попытка приехать на станцию
     std::string getName();//получаем имя станции
     int getId();//гет нейм только с ид
     int getSquare();//гет ид только с площадью
-    std::shared_ptr<Station> getPrev();//вернуть предыдущую локацию
-    void setPrev(std::shared_ptr<Station> p);//сеттер предыдущий
+    std::vector<std::pair<std::shared_ptr<Station>, MetroLine>> getPrev();//вернуть предыдущую локацию
+    void setPrev(std::shared_ptr<Station> p, MetroLine line);//сеттер предыдущий
     void addNext(std::shared_ptr<Station> n, MetroLine line);//сеттер следующей,только почему адд а не сет,но ладно не хочеться много кода менять.пусть будет адд
     std::shared_ptr<Station> getNextForLine(MetroLine line);//получаем след станцию по цвету
+    std::shared_ptr<Station> getPrevForLine(MetroLine line);//получаем след станцию по цвету
     const std::vector<std::pair<std::shared_ptr<Station>, MetroLine>>& getNextStations() const;//а тут станцию
 };
 

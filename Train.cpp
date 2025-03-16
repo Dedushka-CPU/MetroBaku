@@ -12,7 +12,7 @@ void Train::runTrain() {
     bool should_turn = false;
     
     while (arround_trips>0) {
-        while (!current_station->TryArriveTrain(train_id, should_turn)) {
+        while (!current_station->TryArriveTrain(train_id, should_turn,forward)) {
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
         /*дальше про людей на станции*/
@@ -28,7 +28,7 @@ void Train::runTrain() {
         if (passengers_in > 0) {
             passengers_in = rand() % (passengers_in + 1);
             cur_pas += passengers_in;
-            current_station->p_g_t(passengers_in); // забираем людей со станции
+            current_station->p_g_t(-passengers_in); // забираем людей со станции
             std::cout << passengers_in << " passengers boarded at station " 
                       << current_station->getId() << "\n";
         } else {
@@ -42,38 +42,26 @@ void Train::runTrain() {
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));//ну типа в туннеле едет,надеюсь в правильном месте ставлю это
         if (forward) {
-            if (current_station->getId() == 11) {//28 мая
-                if (line == MetroLine::RED || line == MetroLine::GREEN) {
-                    current_station = current_station->getNextForLine(line);
-                } else if (line == MetroLine::YELLOW) {
-                    current_station = current_station->getNextForLine(MetroLine::YELLOW);
+            current_station=current_station->getNextForLine(line);
+        } 
+        else {
+            if(current_station->getId()==13){//Нариманов
+                int i=rand()%10;
+                if(i<=2){
+                    current_station=current_station->getPrevById(15);
+                }else{
+                    current_station=current_station->getPrevById(14);  
                 }
-            } else if (current_station->getId() == 13) {//нариман нариманов
-                if (line == MetroLine::RED || line == MetroLine::GREEN) {
-                    if (train_id % 2 == 0) {
-                        for (const auto& next_station : current_station->getNextStations()) {
-                            if (next_station.first->getId() == 14) {//улдуз
-                                current_station = next_station.first;
-                                break;
-                            }
-                        }
-                    } else {
-                        for (const auto& next_station : current_station->getNextStations()) {
-                            if (next_station.first->getId() == 15) {//бакмиль
-                                current_station = next_station.first;
-                                break;
-                            }
-                        }
-                    }
-                }
-            } else {
-                current_station = current_station->getNextForLine(line);
+                
+            }else{
+             current_station = current_station->getPrevForLine(line);
             }
-        } else {
-            current_station = current_station->getPrev();
+            
         }
-
         
-
     }
+}
+
+bool Train::get_forward(){
+    return forward;
 }

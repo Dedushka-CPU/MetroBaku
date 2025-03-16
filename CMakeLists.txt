@@ -3,4 +3,4 @@ project(MetroBaku)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(MetroBaku main.cpp Metro.cpp)
+add_executable(MetroBaku main.cpp Train.cpp Station.cpp)

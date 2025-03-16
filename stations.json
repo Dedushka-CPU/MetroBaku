@@ -16,10 +16,12 @@
         "square": 1440,
         "last": false,
         "depo": false,
+        "prev": [
+            {"id": 1, "line": "PURPLE"}
+        ],
         "next": [
             {"id": 3, "line": "PURPLE"}
-        ],
-        "prev": 1
+        ]
     },
     {
         "id": 3,
@@ -27,11 +29,14 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
-            {"id": 5, "line": "PURPLE"},
+        "prev": [
+            {"id": 2, "line": "PURPLE"},
             {"id": 4, "line": "GREEN"}
         ],
-        "prev": 2
+        "next": [
+            {"id": 5, "line": "PURPLE"},
+            {"id": 26, "line": "GREEN"}
+        ]
     },
     {
         "id": 4,
@@ -39,10 +44,12 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 6, "line": "GREEN"}
         ],
-        "prev": 3
+        "next": [
+            {"id": 3, "line": "GREEN"}
+        ]
     },
     {
         "id": 5,
@@ -50,8 +57,8 @@
         "square": 1440,
         "last": true,
         "depo": false,
-        "next": [],
-        "prev": 3
+        "prev": [{"id": 3, "line": "PURPLE"}],
+        "next": []
     },
     {
         "id": 6,
@@ -59,10 +66,12 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 7, "line": "GREEN"}
         ],
-        "prev": 4
+        "next": [
+            {"id": 4, "line": "GREEN"}
+        ]
     },
     {
         "id": 7,
@@ -70,10 +79,12 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 8, "line": "GREEN"}
         ],
-        "prev": 6
+        "next": [
+            {"id": 6, "line": "GREEN"}
+        ]
     },
     {
         "id": 8,
@@ -81,10 +92,12 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 11, "line": "GREEN"}
         ],
-        "prev": 7
+        "next": [
+            {"id": 7, "line": "GREEN"}
+        ]
     },
     {
         "id": 9,
@@ -92,10 +105,12 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 11, "line": "RED"}
         ],
-        "prev": 10
+        "next": [
+            {"id": 10, "line": "RED"}
+        ]
     },
     {
         "id": 10,
@@ -103,10 +118,10 @@
         "square": 1050,
         "last": true,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 9, "line": "RED"}
         ],
-        "prev": null
+        "next": []
     },
     {
         "id": 11,
@@ -114,12 +129,14 @@
         "square": 1670,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 12, "line": "RED"},
-            {"id": 12, "line": "GREEN"},
-            {"id": 22, "line": "YELLOW"}
+            {"id": 12, "line": "GREEN"}
         ],
-        "prev": 8
+        "next": [
+            {"id": 8, "line": "GREEN"},
+            {"id": 9, "line": "RED"}
+        ]
     },
     {
         "id": 12,
@@ -127,11 +144,14 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 13, "line": "RED"},
             {"id": 13, "line": "GREEN"}
         ],
-        "prev": 11
+        "next": [
+            {"id": 11, "line": "RED"},
+            {"id": 11, "line": "GREEN"}
+        ]
     },
     {
         "id": 13,
@@ -139,13 +159,16 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 15, "line": "RED"},
             {"id": 15, "line": "GREEN"},
             {"id": 14, "line": "RED"},
             {"id": 14, "line": "GREEN"}
         ],
-        "prev": 12
+        "next": [
+            {"id": 12, "line": "RED"},
+            {"id": 12, "line": "GREEN"}
+        ]
     },
     {
         "id": 14,
@@ -153,11 +176,14 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 16, "line": "RED"},
             {"id": 16, "line": "GREEN"}
         ],
-        "prev": 13
+        "next": [
+            {"id": 13, "line": "RED"},
+            {"id": 13, "line": "GREEN"}
+        ]
     },
     {
         "id": 15,
@@ -165,8 +191,11 @@
         "square": 1050,
         "last": true,
         "depo": false,
-        "next": [],
-        "prev": 13
+        "prev": [],
+        "next": [
+            {"id": 13, "line": "RED"},
+            {"id": 13, "line": "GREEN"}
+        ]
     },
     {
         "id": 16,
@@ -174,11 +203,14 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 17, "line": "RED"},
             {"id": 17, "line": "GREEN"}
         ],
-        "prev": 14
+        "next": [
+            {"id": 14, "line": "RED"},
+            {"id": 14, "line": "GREEN"}
+        ]
     },
     {
         "id": 17,
@@ -186,11 +218,14 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 18, "line": "RED"},
             {"id": 18, "line": "GREEN"}
         ],
-        "prev": 16
+        "next": [
+            {"id": 16, "line": "RED"},
+            {"id": 16, "line": "GREEN"}
+        ]
     },
     {
         "id": 18,
@@ -198,11 +233,14 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 19, "line": "RED"},
             {"id": 19, "line": "GREEN"}
         ],
-        "prev": 17
+        "next": [
+            {"id": 17, "line": "RED"},
+            {"id": 17, "line": "GREEN"}
+        ]
     },
     {
         "id": 19,
@@ -210,11 +248,14 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 20, "line": "RED"},
             {"id": 20, "line": "GREEN"}
         ],
-        "prev": 18
+        "next": [
+            {"id": 18, "line": "RED"},
+            {"id": 18, "line": "GREEN"}
+        ]
     },
     {
         "id": 20,
@@ -222,11 +263,14 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 21, "line": "RED"},
             {"id": 21, "line": "GREEN"}
         ],
-        "prev": 19
+        "next": [
+            {"id": 19, "line": "RED"},
+            {"id": 19, "line": "GREEN"}
+        ]
     },
     {
         "id": 21,
@@ -234,8 +278,11 @@
         "square": 1050,
         "last": true,
         "depo": false,
-        "next": [],
-        "prev": 20
+        "prev": [],
+        "next": [
+            {"id": 20, "line": "RED"},
+            {"id": 20, "line": "GREEN"}
+        ]
     },
     {
         "id": 22,
@@ -243,10 +290,10 @@
         "square": 1050,
         "last": true,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 23, "line": "YELLOW"}
         ],
-        "prev": 11
+        "next": []
     },
     {
         "id": 23,
@@ -254,10 +301,10 @@
         "square": 1050,
         "last": true,
         "depo": false,
+        "prev": [],
         "next": [
             {"id": 22, "line": "YELLOW"}
-        ],
-        "prev": 22
+        ]
     },
     {
         "id": 24,
@@ -265,10 +312,10 @@
         "square": 1050,
         "last": false,
         "depo": true,
-        "next": [
+        "prev": [
             {"id": 25, "line": "GREEN"}
         ],
-        "prev": null
+        "next": []
     },
     {
         "id": 25,
@@ -276,10 +323,12 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 26, "line": "GREEN"}
         ],
-        "prev": 24
+        "next": [
+            {"id": 24, "line": "GREEN"}
+        ]
     },
     {
         "id": 26,
@@ -287,9 +336,11 @@
         "square": 1050,
         "last": false,
         "depo": false,
-        "next": [
+        "prev": [
             {"id": 3, "line": "GREEN"}
         ],
-        "prev": 25
+        "next": [
+            {"id": 25, "line": "GREEN"}
+        ]
     }
 ]

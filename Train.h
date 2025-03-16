@@ -15,8 +15,8 @@ private:
     int max_pas=2600;//максимальное кол-во пассажиров
     
 public:
-    Train(int id, std::shared_ptr<Station> s_s, MetroLine l, bool f = true);
-
+    Train(int id, std::shared_ptr<Station> s_s, MetroLine l, bool f = false);
+    bool get_forward();
     void runTrain();
 };
 
