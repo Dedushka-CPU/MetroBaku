@@ -99,14 +99,10 @@ make
 
 ## 🎉 Пример вывода
 ```
-Station 0 now has 23 people
-(Left_side) Train with id:3 arrived at the station Start Station(0)
-*unreadable voice "GATARA DUSHMAYA TALASIN."*
-23 passengers exited at station 0
-15 passengers boarded at station 0
-(Left_side) Train with id:3 left the station Start Station(0)
-*shouting with aggression*"KANARA CYAKIN"
-"AY ADAM XƏTTİN ARXASINDA DUR"*
+Вывод запуска поезда и его характеристик
+![Fisrt](./img1.png)
+Вывод информации и станции и какой поезд на нее прибыл
+![Second(./img2.png)
 ```
 
 ---
