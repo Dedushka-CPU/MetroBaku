@@ -2,8 +2,9 @@
 #include <thread>
 #include <chrono>
 #include <random>
+#include <sstream>
+#include "Train.h" //для мьютекса от треина
 
-std::mutex Station::cout_mtx;//компилятор сильна ругался,пришлось сюда добавить
 
 // Конструктор
 Station::Station(int i, const std::string& n, int s, bool l,bool d){
@@ -14,117 +15,125 @@ Station::Station(int i, const std::string& n, int s, bool l,bool d){
     last=l;
     max_people = square / 0.2; // Рассчитываем макс. число людей на платформе
 }
-void Station::updatePassengers(){
+void Station::updatePassengers(std::ofstream& outFile, std::string line){
     int change = (rand() % 41) ; 
     int new_people = current_people + change;
-            
+    std::stringstream ss;
     if (new_people < 0) new_people = 0;
     if (new_people > max_people){ 
         new_people = max_people;
         int i=rand()%10;
-        if(1<10){
-            std::cout<<"OH NOOO, ONE MAN FELL UNDER A TRAIN, SAD :(\n";
+        if (i < 10) { // Исправлено 1<10
+            ss << "> 🚨 **Инцидент**: О НЕТ! Человек упал под поезд на станции <span style=\"color:" 
+               << line << "\">" << name << "</span> 😢\n";
         }
     }
             
     current_people = new_people;
-    {
-        std::lock_guard<std::mutex> cout_lock(cout_mtx);
-        std::cout << "Station " << id << " now has " << current_people  << " people\n";
-    }
+    ss << "- 📈 **Пассажиры:** на станции <span style=\"color:" << line 
+       << "\">" << name << " (" << id << ")</span> теперь " << current_people << " человек 👥\n";
+
+    std::lock_guard<std::mutex> lock(Train::file_mtx);
+    outFile << ss.str();
 }
 void Station::add_people(int p){current_people+=p;}
 int Station::get_cur_people(){ return current_people;}
 void Station::p_g_t(int p){current_people+=p;}
 int Station::get_max_pep() const{ return max_people;}
-bool Station::TryArriveTrain(int train_id, bool& s_t,bool& forward) {
-    if(forward){
+bool Station::TryArriveTrain(int train_id, bool& s_t, bool& forward, std::string line_color, std::ofstream& outFile) {
+    if (forward) {
         if (mtx_t.try_lock()) {
-            updatePassengers();
+            std::stringstream ss;
+            ss << "### 🚉 <span style=\"color:" << line_color << "\">" 
+               << name << " (" << id << ")</span> - Прибытие (Left_side)\n";
             {
-                std::lock_guard<std::mutex> lock(cout_mtx);
-                std::cout << "(Left_side) Train with id:" << train_id << " arrived at the station " << name << "(" << id << ")\n";
-                std::cout << "*unreadable voice \"GATARA DUSHMAYA TALASIN.\"*\n";
-            }   
+                std::lock_guard<std::mutex> lock(Train::file_mtx);
+                outFile << ss.str();
+            }
+            updatePassengers(outFile, line_color);
+
+            ss.str(""); // Очищаем поток
+            ss << "- 🚂 **Поезд #" << train_id << " прибыл** 🎉\n";
+            ss << "- 📢 **Громкий голос:** *неразборчиво* \"GATARA DUSHMAYA TALASIN\" 🔊\n";
             std::this_thread::sleep_for(std::chrono::seconds(wait_seconds));
-            
+
             if (depo) {
-                {
-                    std::lock_guard<std::mutex> lock(cout_mtx);
-                    std::cout << "*voice \"Train(" << train_id << ") go to depo. \n";
-                }
-                
+                ss << "- 📢 **Громкий голос:** *голос* \"Поезд #" << train_id << " следует в депо\" 🏭\n";
                 std::this_thread::sleep_for(std::chrono::seconds(wait_seconds));
                 s_t = true;
-            }else if(last){
-                {
-                    std::lock_guard<std::mutex> lock(cout_mtx);
-                    std::cout << "*voice \"This is last station.PLease leave this train and don't your belonginks \n";
-                }
-                
-                std::this_thread::sleep_for(std::chrono::seconds(wait_seconds+5));
+            } else if (last) {
+                ss << "- 📢 **Громкий голос:** *голос* \"Это последняя станция. Пожалуйста, покиньте поезд и не забудьте свои вещи\" 🚪\n";
+                std::this_thread::sleep_for(std::chrono::seconds(wait_seconds + 5));
                 s_t = true;
             }
+            ss << "- 🚂 **Поезд #" << train_id << " покинул станцию** 👋\n";
+            ss << "- 😡 **Крики:** *агрессивно* \"KANARA CYAKIN\" \"AY ADAM XƏTTİN ARXASINDA DUR\" 🗣️\n\n";
+
             {
-                std::lock_guard<std::mutex> lock(cout_mtx);
-                std::cout << "(Left_side)Train with id:" << train_id << " left the station " << name << "(" << id << ")\n";
-                std::cout<<"*shouting with aggression*\"KANARA CYAKIN\"\n\"AY ADAM XƏTTİN ARXASINDA DUR\"*\n";
+                std::lock_guard<std::mutex> lock(Train::file_mtx);
+                outFile << ss.str();
             }
             mtx_t.unlock();
             return true;
         } else {
-            {
-                std::lock_guard<std::mutex> lock(cout_mtx);
-                std::cout << "Train with id: " << train_id << " waiting for the station " << name << "(" << id << ") to be released.\n voice 'Сколь нам еще ждать??Он че там вышел покурить??Ay shofer sur da'\n";
-                std::this_thread::sleep_for(std::chrono::seconds(2));
-            }
+            std::stringstream ss;
+            ss << "#### ⏳ Ожидание у станции <span style=\"color:" << line_color << "\">" 
+               << name << " (" << id << ")</span>\n";
+            ss << "- 🚂 **Поезд #" << train_id << " ждет освобождения** ⏰\n";
+            ss << "- 🗣️ **Голоса:** \"Сколько нам еще ждать?? Он что, вышел покурить?? Ay şofer sür da\" 😤\n\n";
+            std::lock_guard<std::mutex> lock(Train::file_mtx);
+            outFile << ss.str();
+            std::this_thread::sleep_for(std::chrono::seconds(2));
             return false;
         }
-    }else{
+    } else {
         if (mtx_f.try_lock()) {
-            updatePassengers();
+            std::stringstream ss;
+            ss << "### 🚉 <span style=\"color:" << line_color << "\">" 
+               << name << " (" << id << ")</span> - Прибытие (Right_side)\n";
             {
-                std::lock_guard<std::mutex> lock(cout_mtx);
-                std::cout << "(Right_side) Train with id:" << train_id << " arrived at the station " << name << "(" << id << ")\n";
-                std::cout << "*unreadable voice \"GATARA DUSHMAYA TALASIN.\"*\n";
-            }   
-            std::this_thread::sleep_for(std::chrono::seconds(wait_seconds));
-            {
-                std::lock_guard<std::mutex> lock(cout_mtx);
-                std::cout << "(Right_side) Train with id:" << train_id << " left the station " << name << "(" << id << ")\n";
-                std::cout<<"*shouting with aggression*\"KANARA CYAKIN\"\n\"AY ADAM XƏTTİN ARXASINDA DUR\"*\n";
+                std::lock_guard<std::mutex> lock(Train::file_mtx);
+                outFile << ss.str();
             }
+            updatePassengers(outFile, line_color);
+
+            ss.str("");
+            ss << "- 🚂 **Поезд #" << train_id << " прибыл** 🎉\n";
+            ss << "- 📢 **Громкий голос:** *неразборчиво* \"GATARA DUSHMAYA TALASIN\" 🔊\n";
+            std::this_thread::sleep_for(std::chrono::seconds(wait_seconds));
+
             if (depo) {
-                {
-                    std::lock_guard<std::mutex> lock(cout_mtx);
-                    std::cout << "*voice \"Train(" << train_id << ") go to depo. \n";
-                }
-                
+                ss << "- 📢 **Громкий голос:** *голос* \"Поезд #" << train_id << " следует в депо\" 🏭\n";
                 std::this_thread::sleep_for(std::chrono::seconds(wait_seconds));
                 s_t = true;
-            }else if(last){
-                {
-                    std::lock_guard<std::mutex> lock(cout_mtx);
-                    std::cout << "*voice \"This is last station.PLease leave this train and don't your belonginks \n";
-                    std::cout << "Машинист неспешным шагом пошел в другуя часть поезда. \n";
-                }
-                
-                std::this_thread::sleep_for(std::chrono::seconds(wait_seconds+5));
+            } else if (last) {
+                ss << "- 📢 **Громкий голос:** *голос* \"Это последняя станция. Пожалуйста, покиньте поезд и не забудьте свои вещи\" 🚪\n";
+                ss << "- 🚶 **Машинист неспешным шагом пошел в другую часть поезда** 👨‍✈️\n";
+                std::this_thread::sleep_for(std::chrono::seconds(wait_seconds + 5));
                 s_t = true;
+            }
+            ss << "- 🚂 **Поезд #" << train_id << " покинул станцию** 👋\n";
+            ss << "- 😡 **Крики:** *агрессивно* \"KANARA CYAKIN\" \"AY ADAM XƏTTİN ARXASINDA DUR\" 🗣️\n\n";
+
+            {
+                std::lock_guard<std::mutex> lock(Train::file_mtx);
+                outFile << ss.str();
             }
             mtx_f.unlock();
             return true;
         } else {
-            {
-                std::lock_guard<std::mutex> lock(cout_mtx);
-                std::cout << "Train with id: " << train_id << " waiting for the station " << name << "(" << id << ") to be released.\n voice 'Сколь нам еще ждать??Он че там вышел покурить??Ay shofer sur da'\n";
-                std::this_thread::sleep_for(std::chrono::seconds(2));
-            }
+            std::stringstream ss;
+            ss << "#### ⏳ Ожидание у станции <span style=\"color:" << line_color << "\">" 
+               << name << " (" << id << ")</span>\n";
+            ss << "- 🚂 **Поезд #" << train_id << " ждет освобождения** ⏰\n";
+            ss << "- 🗣️ **Голоса:** \"Сколько нам еще ждать?? Он что, вышел покурить?? Ay şofer sür da\" 😤\n\n";
+            std::lock_guard<std::mutex> lock(Train::file_mtx);
+            outFile << ss.str();
+            std::this_thread::sleep_for(std::chrono::seconds(2));
             return false;
         }
     }
 }
-
 std::string Station::getName() {
     return name;
 }

@@ -310,8 +310,8 @@
         "id": 24,
         "name": "Дарнагюль",
         "square": 1050,
-        "last": false,
-        "depo": true,
+        "last": true,
+        "depo": false,
         "prev": [
             {"id": 25, "line": "GREEN"}
         ],
